@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity
     TextView textView1;
     BatteryStatistics batteryStatistics;
     RefreshThread refreshThread;
+    BatteryComponentGraphic batteryComponentGraphic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         textView1 = findViewById(R.id.textView1);
+        batteryComponentGraphic = findViewById(R.id.batteryComponentGraphic);
         batteryStatistics = new BatteryStatistics(this);
 
         textView1.setText(batteryStatistics.getBatteryStatus());
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity
                         public void run()
                         {
                             textView1.setText(batteryStatistics.getBatteryStatus());
+                            batteryComponentGraphic.setBatteryState(batteryStatistics.getBatteryLevel(), batteryStatistics.isCharging());
                         }
                     });
                 }

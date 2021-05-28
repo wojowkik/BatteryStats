@@ -13,6 +13,7 @@ public class BatteryComponentGraphic extends View
 {
     Paint p;
     float batteryLevel = 30;
+    boolean isCharging = false;
     int batteryColor = Color.GREEN, paddingBattery = 10;
 
     public BatteryComponentGraphic(Context context, @Nullable AttributeSet attrs) {
@@ -29,5 +30,12 @@ public class BatteryComponentGraphic extends View
         p.setColor(batteryColor);
         canvas.drawRect(paddingBattery,getHeight()-(getHeight()-getHeight()/15-paddingBattery)*batteryLevel/100,getWidth()-paddingBattery,getHeight()-paddingBattery, p);//main
         p.setColor(Color.BLACK);
+    }
+    void setBatteryState(float batteryLevel, boolean isCharging)
+    {
+        if(batteryLevel >= 0 && batteryLevel <= 100) this.batteryLevel = batteryLevel;
+        this.isCharging = isCharging;
+
+        invalidate();
     }
 }

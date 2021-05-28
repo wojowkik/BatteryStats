@@ -13,6 +13,7 @@ class BatteryStatistics
     private String statusHealth, statusPlugged, statusProperty, statusCharging, statusLevel,
                     statusTechnology, statusTemperature, statusVoltage;
     private float batteryLevel;
+    private boolean isCharging = false;
 
     BatteryStatistics(Context context){
         this.context = context;
@@ -38,10 +39,22 @@ class BatteryStatistics
         //EXTRA PLUGGED - BATTERY_PLUGGED_... - battery charging method test
         statusPlugged = "PLUGGED:\t";
         int batteryPlugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-        if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_AC)  statusPlugged += "AC";
-        else if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_USB) statusPlugged += "USB";
-        else if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_WIRELESS) statusPlugged += "WIRELESS";
-        else statusPlugged = "UNPLUGGED";
+        if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_AC) {
+            statusPlugged += "AC";
+            isCharging = true;
+        }
+        else if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_USB) {
+            statusPlugged += "USB";
+            isCharging = true;
+        }
+        else if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_WIRELESS) {
+            statusPlugged += "WIRELESS";
+            isCharging = true;
+        }
+        else {
+            statusPlugged = "UNPLUGGED";
+            isCharging = false;
+        }
         statusPlugged += "\n";
 
         //BATTERY_PROPERTY_... - battery properties test
@@ -90,5 +103,13 @@ class BatteryStatistics
         getBatteryStatistics();
         return statusLevel + statusHealth + statusCharging + statusPlugged  + statusTemperature + statusVoltage +
                 "\nADDITIONAL PROPERTIES\n"+ statusTechnology  + statusProperty;
+    }
+    float getBatteryLevel()
+    {
+        return batteryLevel;
+    }
+    boolean isCharging()
+    {
+        return isCharging;
     }
 }
