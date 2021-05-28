@@ -9,7 +9,7 @@ import android.os.BatteryManager;
 class BatteryStatistics
 {
     private Context context;
-    private String statusHealth, statusPlugged;
+    private String statusHealth, statusPlugged, statusProperty;
 
     BatteryStatistics(Context context){
         this.context = context;
@@ -40,10 +40,19 @@ class BatteryStatistics
         else if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_WIRELESS) statusPlugged += "WIRELESS";
         else statusPlugged = "UNPLUGGED";
         statusPlugged += "\n";
+
+        //BATTERY_PROPERTY_... - battery properties test
+        statusProperty = "CAPACITY:\t" + BatteryManager.BATTERY_PROPERTY_CAPACITY + "%\n";
+        statusProperty += "CHARGE COUNTER:\t" + BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER + "uAh\n";
+        statusProperty += "CURRENT AVERAGE:\t" + BatteryManager.BATTERY_PROPERTY_CURRENT_AVERAGE + "uA\n";
+        statusProperty += "CURRENT NOW:\t" + BatteryManager.BATTERY_PROPERTY_CURRENT_NOW + "uA\n";
+        statusProperty += "ENERGY COUNTER:\t" + BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER + "nWh\n";
+        statusProperty += "PROPERTY STATUS:\t" + BatteryManager.BATTERY_PROPERTY_STATUS + "\n";
+
     }
     String getBatteryStatus() // method that allows to get all information about the battery outside class
     {
         getBatteryStatistics();
-        return statusHealth + statusPlugged;
+        return statusHealth + statusPlugged + statusProperty;
     }
 }
