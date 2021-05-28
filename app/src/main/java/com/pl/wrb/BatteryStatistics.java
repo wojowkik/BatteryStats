@@ -9,7 +9,8 @@ import android.os.BatteryManager;
 class BatteryStatistics
 {
     private Context context;
-    private String statusHealth, statusPlugged, statusProperty, statusCharging;
+    private String statusHealth, statusPlugged, statusProperty, statusCharging, statusLevel;
+    private float batteryLevel;
 
     BatteryStatistics(Context context){
         this.context = context;
@@ -49,7 +50,7 @@ class BatteryStatistics
         statusProperty += "ENERGY COUNTER:\t" + BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER + "nWh\n";
         statusProperty += "PROPERTY STATUS:\t" + BatteryManager.BATTERY_PROPERTY_STATUS + "\n";
 
-        //EXTRA STATUS - BATTERY_STATUS_...
+        //EXTRA STATUS - BATTERY_STATUS_... - battery status check
         statusCharging = "STATUS:\t";
         int batteryCharging = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         if(batteryCharging == BatteryManager.BATTERY_STATUS_CHARGING) statusCharging += "CHARGING";
@@ -58,12 +59,19 @@ class BatteryStatistics
         else if(batteryCharging == BatteryManager.BATTERY_STATUS_NOT_CHARGING) statusCharging += "NOT CHARGING";
         else if(batteryCharging == BatteryManager.BATTERY_STATUS_UNKNOWN) statusCharging += "UNKNOWN";
         else statusCharging += "---";
-
         statusCharging += "\n";
+
+        //EXTRA_LEVEL
+        // Extra for Intent.ACTION_BATTERY_CHANGED: integer field containing the current battery level, from 0 to EXTRA_SCALE.
+        statusLevel = "LEVEL\t";
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        batteryLevel = ((float) level / (float) scale) *100;
+        statusLevel += batteryLevel+ "%\n" ;
     }
     String getBatteryStatus() // method that allows to get all information about the battery outside class
     {
         getBatteryStatistics();
-        return statusHealth + statusPlugged + statusProperty + statusCharging;
+        return statusHealth + statusPlugged + statusProperty + statusCharging + statusLevel;
     }
 }
