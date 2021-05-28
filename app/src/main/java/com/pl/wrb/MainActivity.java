@@ -18,5 +18,7 @@ public class MainActivity extends AppCompatActivity
 
         textView1 = findViewById(R.id.textView1);
         batteryStatistics = new BatteryStatistics(this);
+
+        textView1.setText(batteryStatistics.getBatteryStatus());
     }
 }
