@@ -8,7 +8,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity
 {
 
-    TextView textView1;
+    TextView textView1, textViewBatteryLevel;
     BatteryStatistics batteryStatistics;
     RefreshThread refreshThread;
     BatteryComponentGraphic batteryComponentGraphic;
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         textView1 = findViewById(R.id.textView1);
+        textViewBatteryLevel = findViewById(R.id.textView2);
         batteryComponentGraphic = findViewById(R.id.batteryComponentGraphic);
         batteryStatistics = new BatteryStatistics(this);
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity
                         public void run()
                         {
                             textView1.setText(batteryStatistics.getBatteryStatus());
+                            textViewBatteryLevel.setText(batteryStatistics.getBatteryLevel()+"%");
                             batteryComponentGraphic.setBatteryState(batteryStatistics.getBatteryLevel(), batteryStatistics.isCharging());
                         }
                     });
