@@ -9,7 +9,8 @@ import android.os.BatteryManager;
 class BatteryStatistics
 {
     private Context context;
-    private String statusHealth, statusPlugged, statusProperty, statusCharging, statusLevel;
+    private String statusHealth, statusPlugged, statusProperty, statusCharging, statusLevel,
+                    statusTechnology;
     private float batteryLevel;
 
     BatteryStatistics(Context context){
@@ -68,10 +69,15 @@ class BatteryStatistics
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         batteryLevel = ((float) level / (float) scale) *100;
         statusLevel += batteryLevel+ "%\n" ;
+
+        //EXTRA_TECHNOLOGY
+        // Extra for Intent.ACTION_BATTERY_CHANGED: String describing the technology of the current battery.
+        statusTechnology = "BATTERY TECHNOLOGY:\t" + batteryStatus.getStringExtra(BatteryManager.EXTRA_TECHNOLOGY) + "\n";
     }
     String getBatteryStatus() // method that allows to get all information about the battery outside class
     {
         getBatteryStatistics();
-        return statusHealth + statusPlugged + statusProperty + statusCharging + statusLevel;
+        return statusHealth + statusPlugged + statusProperty + statusCharging + statusLevel +
+                statusTechnology;
     }
 }
