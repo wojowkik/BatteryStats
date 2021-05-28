@@ -9,7 +9,7 @@ import android.os.BatteryManager;
 class BatteryStatistics
 {
     private Context context;
-    private String statusHealth, statusPlugged, statusProperty;
+    private String statusHealth, statusPlugged, statusProperty, statusCharging;
 
     BatteryStatistics(Context context){
         this.context = context;
@@ -49,10 +49,21 @@ class BatteryStatistics
         statusProperty += "ENERGY COUNTER:\t" + BatteryManager.BATTERY_PROPERTY_CHARGE_COUNTER + "nWh\n";
         statusProperty += "PROPERTY STATUS:\t" + BatteryManager.BATTERY_PROPERTY_STATUS + "\n";
 
+        //EXTRA STATUS - BATTERY_STATUS_...
+        statusCharging = "STATUS:\t";
+        int batteryCharging = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        if(batteryCharging == BatteryManager.BATTERY_STATUS_CHARGING) statusCharging += "CHARGING";
+        else if(batteryCharging == BatteryManager.BATTERY_STATUS_DISCHARGING) statusCharging += "DISCHARGING";
+        else if(batteryCharging == BatteryManager.BATTERY_STATUS_FULL) statusCharging += "FULL";
+        else if(batteryCharging == BatteryManager.BATTERY_STATUS_NOT_CHARGING) statusCharging += "NOT CHARGING";
+        else if(batteryCharging == BatteryManager.BATTERY_STATUS_UNKNOWN) statusCharging += "UNKNOWN";
+        else statusCharging += "---";
+
+        statusCharging += "\n";
     }
     String getBatteryStatus() // method that allows to get all information about the battery outside class
     {
         getBatteryStatistics();
-        return statusHealth + statusPlugged + statusProperty;
+        return statusHealth + statusPlugged + statusProperty + statusCharging;
     }
 }
