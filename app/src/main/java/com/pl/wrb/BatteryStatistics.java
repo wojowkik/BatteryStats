@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 
 /*a class that allows to get information about the state of the battery */
+// https://developer.android.com/training/monitoring-device-state/battery-monitoring
 class BatteryStatistics
 {
     private Context context;
@@ -87,7 +88,7 @@ class BatteryStatistics
     String getBatteryStatus() // method that allows to get all information about the battery outside class
     {
         getBatteryStatistics();
-        return statusHealth + statusPlugged + statusProperty + statusCharging + statusLevel +
-                statusTechnology + statusTemperature + statusVoltage;
+        return statusLevel + statusHealth + statusCharging + statusPlugged  + statusTemperature + statusVoltage +
+                "\nADDITIONAL PROPERTIES\n"+ statusTechnology  + statusProperty;
     }
 }
