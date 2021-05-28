@@ -10,7 +10,7 @@ class BatteryStatistics
 {
     private Context context;
     private String statusHealth, statusPlugged, statusProperty, statusCharging, statusLevel,
-                    statusTechnology, statusTemperature;
+                    statusTechnology, statusTemperature, statusVoltage;
     private float batteryLevel;
 
     BatteryStatistics(Context context){
@@ -78,11 +78,16 @@ class BatteryStatistics
         //Extra for Intent.ACTION_BATTERY_CHANGED: integer containing the current battery temperature.
         int temperature = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, -1) / 10;
         statusTemperature = "TEMPERATURE: " + temperature + "°C\n";
+
+        //EXTRA_VOLTAGE
+        //Extra for Intent.ACTION_BATTERY_CHANGED: integer containing the current battery voltage level.
+        float voltage = (float) batteryStatus.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1) / 1000;
+        statusVoltage = "VOLTAGE: " + voltage + " V\n";
     }
     String getBatteryStatus() // method that allows to get all information about the battery outside class
     {
         getBatteryStatistics();
         return statusHealth + statusPlugged + statusProperty + statusCharging + statusLevel +
-                statusTechnology + statusTemperature;
+                statusTechnology + statusTemperature + statusVoltage;
     }
 }
