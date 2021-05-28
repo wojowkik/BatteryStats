@@ -9,7 +9,7 @@ import android.os.BatteryManager;
 class BatteryStatistics
 {
     private Context context;
-    private String statusHealth = "";
+    private String statusHealth, statusPlugged;
 
     BatteryStatistics(Context context){
         this.context = context;
@@ -31,10 +31,19 @@ class BatteryStatistics
         else if(batteryHealth == BatteryManager.BATTERY_HEALTH_UNSPECIFIED_FAILURE) statusHealth += "UNSPECIFIED FAILURE";
         else statusHealth = "---";
         statusHealth += "\n";
+
+        //EXTRA PLUGGED - BATTERY_PLUGGED_... - battery charging method test
+        statusPlugged = "PLUGGED:\t";
+        int batteryPlugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_AC)  statusPlugged += "AC";
+        else if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_USB) statusPlugged += "USB";
+        else if(batteryPlugged == BatteryManager.BATTERY_PLUGGED_WIRELESS) statusPlugged += "WIRELESS";
+        else statusPlugged = "UNPLUGGED";
+        statusPlugged += "\n";
     }
     String getBatteryStatus() // method that allows to get all information about the battery outside class
     {
         getBatteryStatistics();
-        return statusHealth;
+        return statusHealth + statusPlugged;
     }
 }
