@@ -35,7 +35,23 @@ public class BatteryComponentGraphic extends View
     {
         if(batteryLevel >= 0 && batteryLevel <= 100) this.batteryLevel = batteryLevel;
         this.isCharging = isCharging;
+        setColorPreferences();
 
         invalidate();
+    }
+    private void setColorPreferences()
+    {
+        if(batteryLevel<20) {
+            batteryColor = Color.RED;
+        }
+        else if(batteryLevel<50) {
+            batteryColor = Color.YELLOW;
+        }
+        else if(isCharging) {
+            batteryColor = Color.MAGENTA;
+        }
+        else {
+            batteryColor = Color.GREEN;
+        }
     }
 }
